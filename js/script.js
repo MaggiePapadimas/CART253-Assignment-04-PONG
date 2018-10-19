@@ -4,7 +4,7 @@
 // A primitive implementation of Pong with no scoring system
 // just the ability to play the game with the keyboard.
 ////////// NEW //////////
-//Scoring
+//maxScore and gameOver
 var maxScore = 6;
 var gameOver = false;
 ////////// END //////////
@@ -45,6 +45,7 @@ var leftPaddle = {
   upKeyCode: 87, // The key code for W
   downKeyCode: 83, // The key code for S
   ////////// NEW //////////
+  //name & score for paddles
   score: 0,
   name: "Player One"
   //////////END //////////
@@ -65,6 +66,7 @@ var rightPaddle = {
   upKeyCode: 38, // The key code for the UP ARROW
   downKeyCode: 40, // The key code for the DOWN ARROW
   ////////// NEW //////////
+  //name & score for paddles
   score: 0,
   name: "Player Two"
   //////////END //////////
@@ -92,6 +94,7 @@ function setup() {
   noStroke();
   fill(fgColor);
 ////////// NEW /////////
+//background to hide lines (trancperency lines)
   background(9);
 ////////// END //////////
   setupPaddles();
@@ -126,6 +129,7 @@ function setupBall() {
 // Calls the appropriate functions to run the game
 function draw() {
   ////////// NEW //////////
+  //gameOver screen
   if (!gameOver){
   // Fill the background
   background(0, 0, 0, 50);
@@ -151,7 +155,11 @@ function draw() {
 
   // Handle the ball going off screen
   handleBallOffScreen();
-
+  //////////// NEW ///////////
+  //Stops paddled from leaving screen
+  handlePaddleWallCollision(leftPaddle);
+  handlePaddleWallCollision(rightPaddle);
+  ////////// END /////////
   // Display the paddles and ball
   displayPaddle(leftPaddle);
   displayPaddle(rightPaddle);
@@ -229,6 +237,15 @@ function handleBallWallCollision() {
   }
 }
 ////////// NEW /////////
+//stops the paddles from leaving screen
+function handlePaddleWallCollision(paddle){
+  if (paddle.y < 0) {
+    paddle.y = 0;
+  }
+  if (paddle.y > height){
+    paddle.y = height;
+  }
+}
 ///////// END /////////
 // handleBallPaddleCollision(paddle)
 //
@@ -271,6 +288,7 @@ function handleBallOffScreen() {
   var ballLeft = ball.x - ball.size/2;
   var ballRight = ball.x + ball.size/2;
 ////////// NEW //////////
+//if scored on paddle gets bigger, and if score paddle gets smaller
   var scored = false;
 
   if (ballLeft > width){
