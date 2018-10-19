@@ -47,7 +47,10 @@ var leftPaddle = {
   vy: 0,
   speed: 5,
   upKeyCode: 87, // The key code for W
-  downKeyCode: 83 // The key code for S
+  downKeyCode: 83, // The key code for S
+  ////////// NEW //////////
+  score: 0
+  //////////END //////////
 }
 
 // RIGHT PADDLE
@@ -63,7 +66,10 @@ var rightPaddle = {
   vy: 0,
   speed: 5,
   upKeyCode: 38, // The key code for the UP ARROW
-  downKeyCode: 40 // The key code for the DOWN ARROW
+  downKeyCode: 40, // The key code for the DOWN ARROW
+  ////////// NEW //////////
+  score: 0
+  //////////END //////////
 }
 
 // A variable to hold the beep sound we will play on bouncing
@@ -259,9 +265,20 @@ function handleBallOffScreen() {
   // Calculate edges of ball for clearer if statement below
   var ballLeft = ball.x - ball.size/2;
   var ballRight = ball.x + ball.size/2;
+////////// NEW //////////
+  var scored = false;
 
+  if (ballLeft > width){
+    leftPaddle.score+= 1;
+    scored = true;
+  }
+  else if (ballRight < 0) {
+    rightPaddle.score+= 1;
+    scored = true;
+  }
   // Check for ball going off the sides
-  if (ballRight < 0 || ballLeft > width) {
+  if (scored) {
+////////// END //////////
     // If it went off either side, reset it to the centre
     ball.x = width/2;
     ball.y = height/2;
@@ -269,10 +286,7 @@ function handleBallOffScreen() {
     // carries on moving with the same velocity after its
     // position is reset.
     // This is where we would count points etc!
-    ballLeftScore = +1;
-  }
-  else{
-    ballRightScore = +1;
+
   }
 }
 
@@ -289,3 +303,9 @@ function displayBall() {
 function displayPaddle(paddle) {
   rect(paddle.x,paddle.y,paddle.w,paddle.h);
 }
+
+//////////NEW//////////
+function displayScore(){
+
+}
+////////// END //////////
