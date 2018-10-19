@@ -272,24 +272,15 @@ function handleBallOffScreen() {
     scored = true;
     score(leftPaddle);
     scoredOn(rightPaddle);
+    reset(-8);
   }
   else if (ballRight < 0) {
     scored = true;
     score(rightPaddle);
     scoredOn(leftPaddle);
+    reset(8);
   }
-  // Check for ball going off the sides
-  if (scored) {
 ////////// END //////////
-    // If it went off either side, reset it to the centre
-    ball.x = width/2;
-    ball.y = height/2;
-    // NOTE that we don't change its velocity here so it just
-    // carries on moving with the same velocity after its
-    // position is reset.
-    // This is where we would count points etc!
-
-  }
 }
 
 // displayBall()
@@ -319,7 +310,10 @@ function scoredOn(paddle){
   paddle.h+= 10;
 }
 //resets game
-function reset(){
-
+function reset(ballVelocity){
+  ball.x = width/2;
+  ball.y = height/2;
+  ball.vx = ballVelocity;
+  ball.vy = random(-10,10);
 }
 ////////// END //////////
