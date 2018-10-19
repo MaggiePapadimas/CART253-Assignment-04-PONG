@@ -5,15 +5,11 @@
 // just the ability to play the game with the keyboard.
 ////////// NEW //////////
 //Scoring
-var ballLeftScore;
-var ballRightScore;
-var score;
-var scoreCounter;
 var maxScore = 6;
+var gameOver = false;
 ////////// END //////////
 
 // Game colors
-var bgColor = 0;
 var fgColor = 255;
 
 // BALL
@@ -49,7 +45,8 @@ var leftPaddle = {
   upKeyCode: 87, // The key code for W
   downKeyCode: 83, // The key code for S
   ////////// NEW //////////
-  score: 0
+  score: 0,
+  name: "Player One"
   //////////END //////////
 }
 
@@ -68,7 +65,8 @@ var rightPaddle = {
   upKeyCode: 38, // The key code for the UP ARROW
   downKeyCode: 40, // The key code for the DOWN ARROW
   ////////// NEW //////////
-  score: 0
+  score: 0,
+  name: "Player Two"
   //////////END //////////
 }
 
@@ -93,7 +91,9 @@ function setup() {
   rectMode(CENTER);
   noStroke();
   fill(fgColor);
-
+////////// NEW /////////
+  background(9);
+////////// END //////////
   setupPaddles();
   setupBall();
 }
@@ -125,8 +125,11 @@ function setupBall() {
 //
 // Calls the appropriate functions to run the game
 function draw() {
+  ////////// NEW //////////
+  if (!gameOver){
   // Fill the background
-  background(bgColor);
+  background(0, 0, 0, 50);
+  ////////// END //////////
 
   // Handle input
   // Notice how we're using the SAME FUNCTION to handle the input
@@ -153,6 +156,7 @@ function draw() {
   displayPaddle(leftPaddle);
   displayPaddle(rightPaddle);
   displayBall();
+  }
 }
 
 
@@ -224,7 +228,8 @@ function handleBallWallCollision() {
     beepSFX.play();
   }
 }
-
+////////// NEW /////////
+///////// END /////////
 // handleBallPaddleCollision(paddle)
 //
 // Checks if the ball overlaps the specified paddle and if so
@@ -303,6 +308,13 @@ function score(paddle){
   paddle.score+= 1;
   if (paddle.h >5){
     paddle.h-= 2;
+  }
+  if (paddle.score == maxScore){
+    gameOver = true;
+    background(0);
+    textSize(30);
+    textAlign(CENTER);
+    text(paddle.name + " wins!", width/2, height/3);
   }
 }
 //makes scorer bigger
