@@ -47,7 +47,7 @@ var leftPaddle = {
   ////////// NEW //////////
   //name & score for paddles
   score: 0,
-  name: "Player One"
+  name: "Player"
   //////////END //////////
 }
 
@@ -62,13 +62,13 @@ var rightPaddle = {
   h: 70,
   vx: 0,
   vy: 0,
-  speed: 5,
+  speed: 3,
   upKeyCode: 38, // The key code for the UP ARROW
   downKeyCode: 40, // The key code for the DOWN ARROW
   ////////// NEW //////////
   //name & score for paddles
   score: 0,
-  name: "Player Two"
+  name: "Computer"
   //////////END //////////
 }
 
@@ -133,6 +133,7 @@ function draw() {
   if (!gameOver){
   // Fill the background
   background(0, 0, 0, 50);
+  displayScore();
   ////////// END //////////
 
   // Handle input
@@ -140,7 +141,7 @@ function draw() {
   // for the two paddles!
   handleInput(leftPaddle);
   handleInput(rightPaddle);
-
+  moveAI(ball,rightPaddle);
   // Update positions of all objects
   // Notice how we're using the SAME FUNCTION to handle the input
   // for all three objects!
@@ -214,7 +215,14 @@ function updatePosition(object) {
   object.x += object.vx;
   object.y += object.vy;
 }
-
+//AI (Moves the right paddle)
+function moveAI(ball,paddle){
+  if(abs(ball.x - paddle.x) >2*paddle.w ){
+  if(ball.y > paddle.y) paddle.vy = paddle.speed;
+  else if(ball.y < paddle.y) paddle.vy = -paddle.speed;
+}
+}
+////////// END //////////
 // handleBallWallCollision()
 //
 // Checks if the ball has overlapped the upper or lower 'wall' (edge of the screen)
@@ -345,5 +353,15 @@ function reset(ballVelocity){
   ball.y = height/2;
   ball.vx = ballVelocity;
   ball.vy = random(-10,10);
+  while(abs(ball.vy <3)){
+    ball.vy = random(-10,10);
+  }
+}
+//score
+function displayScore(){
+  textSize(35);
+  text("--SCORE--",250, 50);
+  text(""+leftPaddle.score, leftPaddle.x, 50);
+  text(""+rightPaddle.score, rightPaddle.x, 50);
 }
 ////////// END //////////
