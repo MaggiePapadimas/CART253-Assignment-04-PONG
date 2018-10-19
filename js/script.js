@@ -269,12 +269,14 @@ function handleBallOffScreen() {
   var scored = false;
 
   if (ballLeft > width){
-    leftPaddle.score+= 1;
     scored = true;
+    score(leftPaddle);
+    scoredOn(rightPaddle);
   }
   else if (ballRight < 0) {
-    rightPaddle.score+= 1;
     scored = true;
+    score(rightPaddle);
+    scoredOn(leftPaddle);
   }
   // Check for ball going off the sides
   if (scored) {
@@ -305,7 +307,19 @@ function displayPaddle(paddle) {
 }
 
 //////////NEW//////////
-function displayScore(){
+//makes scored smaller
+function score(paddle){
+  paddle.score+= 1;
+  if (paddle.h >5){
+    paddle.h-= 2;
+  }
+}
+//makes scorer bigger
+function scoredOn(paddle){
+  paddle.h+= 10;
+}
+//resets game
+function reset(){
 
 }
 ////////// END //////////
